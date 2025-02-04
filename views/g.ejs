@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--Header-->
+  <%- include('layouts/header.ejs') -%>
+
+  <body class="g-background">
+    <!-- Navigation-->
+    <%- include('layouts/navbar.ejs') -%>
+    <!-- Page Header-->
+    <header class="masthead g-back-image">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="page-heading">
+              <h1>G Driving Test</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <div class="col-8 h-100 success-alert-box">
+      <% if(success!='' ){ %>
+      <div
+        id="success-alert"
+        class="alert alert-success alert-dismissible fade show justify-content-center"
+        role="alert"
+      >
+        <%= success %>
+      </div>
+      <% } %>
+    </div>
+    <main class="mb-4">
+      <section class="gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <div class="appointment-success-box mt-3">
+                <% if(bookSuccessMessage!="" ){ %>
+                <div
+                  id="appointment-success-box"
+                  class="alert alert-success alert-dismissible fade show justify-content-center"
+                  role="alert"
+                >
+                  Appointment Booked Successfully!!
+                </div>
+                <% } %>
+              </div>
+              <form action="/appointments/g2/g_page" method="POST">
+                <label for="dateG">Date:</label>
+                <input
+                  class="form-control form-control-lg mb-2"
+                  id="dateG"
+                  type="text"
+                  name="date"
+                  readonly="true"
+                  placeholder="Date"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-dark"
+                  data-mdb-ripple-color="dark"
+                >
+                  View available timeslots
+                </button>
+              </form>
+              <div class="timeslot-alert-box mt-3">
+                <% if(timeslots.length<=0){ %>
+                <div
+                  id="failure-alert-box"
+                  class="alert alert-warning justify-content-center"
+                  role="alert"
+                >
+                  No Slots Available for the date selected above
+                </div>
+                <% } %>
+              </div>
+              <% if (date && timeslots.length> 0) { %>
+              <h2 class="mt-2">Available timeslots for <%= date %></h2>
+              <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                  <tr>
+                    <th>Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% timeslots.forEach(timeslot=> { %>
+                  <tr>
+                    <td><%= timeslot.time %></td>
+
+                    <td>
+                      <a href="/appointments/<%= timeslot._id %>/G/book"
+                        >Book</a
+                      >
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <!--Display info-->
+
+              <div
+                class="card shadow-2-strong card-registration personal-info-card"
+              >
+                <div class="card-body p-4 p-md-5">
+                  <div class="failure-alert-box">
+                    <% if(failure!='' ){ %>
+                    <div
+                      id="failure-alert-box"
+                      class="alert alert-warning justify-content-center"
+                      role="alert"
+                    >
+                      <%= failure %><a href="/g2"> Register</a>
+                    </div>
+                    <% } %>
+                  </div>
+                  <% if(failure=='' ){ %>
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">User Information</h3>
+                  <% } %> <% if(userDetails){ %>
+                  <form
+                    action="/cred/store/<%= userDetails._id %>"
+                    method="POST"
+                    id="gTestpersonalInfoForm"
+                  >
+                    <fieldset class="g-fieldset">
+                      <legend>Personal Information</legend>
+                      <div class="row">
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              disabled
+                              value="<%= userDetails.fname %>"
+                              id="fname"
+                              name="fname"
+                              type="text"
+                              placeholder="First Name"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              disabled
+                              value="<%= userDetails.lname %>"
+                              id="lname"
+                              type="text"
+                              name="lname"
+                              placeholder="Last Name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              disabled
+                              value="<%= userDetails.license %>"
+                              id="license"
+                              type="text"
+                              maxlength="8"
+                              name="license"
+                              placeholder="License Number"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              disabled
+                              value="<%= userDetails.age %>"
+                              id="age"
+                              type="text"
+                              placeholder="Age"
+                              name="age"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mb-4 pb-2 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              disabled
+                              value="<%= userDetails.dob.toLocaleDateString(); %>"
+                              id="dob"
+                              type="text"
+                              name="dob"
+                              placeholder="DOB"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <fieldset class="g-fieldset">
+                      <legend>Car Details</legend>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="make"
+                              value="<%= userDetails.carDetails.make %>"
+                              type="text"
+                              placeholder="Make"
+                              name="make"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="model"
+                              value="<%= userDetails.carDetails.model %>"
+                              type="text"
+                              placeholder="Model"
+                              name="model"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="year"
+                              value="<%= userDetails.carDetails.year.toLocaleDateString(); %>"
+                              name="year"
+                              type="text"
+                              placeholder="Year"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              name="color"
+                              value="<%= userDetails.carDetails.color %>"
+                              id="color"
+                              type="text"
+                              placeholder="Color"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mb-4 pb-2">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              value="<%= userDetails.carDetails.numberPlate %>"
+                              id="numberPlate"
+                              type="text"
+                              placeholder="Plate Number"
+                              name="numberPlate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    <div class="mt-4 mb-2 pt-2">
+                      <input
+                        class="btn btn-dark btn-lg"
+                        type="submit"
+                        value="DRIVE"
+                      />
+                    </div>
+                  </form>
+                  <% } %>
+
+                  <!-- Footer-->
+                  <%- include('layouts/footer.ejs') -%>
+                </div>
+              </div>
+              <!--Display info-->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Scripts-->
+    <%- include('layouts/scripts.ejs') -%>
+  </body>
+</html>

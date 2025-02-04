@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--Header-->
+  <%- include('layouts/header.ejs') -%>
+
+  <body class="login-background">
+    <!-- Navigation-->
+    <%- include('layouts/navbar.ejs') -%>
+    <!-- Page Header-->
+    <header class="masthead login-back-image">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="page-heading">
+              <h1>Login here..</h1>
+              <span class="subheading">Stay Connected.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <main class="mb-4">
+      <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <div
+                class="card shadow-2-strong card-registration"
+                style="border-radius: 15px"
+              >
+                <div class="success-alert-box mt-2">
+                  <% if(success!='' ){ %>
+                  <div
+                    id="success-alert"
+                    class="alert alert-success alert-dismissible fade show justify-content-center"
+                    role="alert"
+                  >
+                    <%= success %>
+                  </div>
+                  <% } %>
+                </div>
+                <div class="failure-alert-box mt-2">
+                  <% if(failure!='' ){ %>
+                  <div
+                    id="failure-alert"
+                    class="alert alert-warning alert-dismissible fade show justify-content-center"
+                    role="alert"
+                  >
+                    <%= failure %>
+                  </div>
+                  <% } %>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Log In</h3>
+
+                  <!-- Pills navs -->
+                  <ul
+                    class="nav nav-pills nav-justified mb-3"
+                    id="ex1"
+                    role="tablist"
+                  >
+                    <li class="nav-item" role="presentation">
+                      <a
+                        class="nav-link active"
+                        id="tab-login"
+                        data-mdb-toggle="pill"
+                        href="#pills-login"
+                        role="tab"
+                        aria-controls="pills-login"
+                        aria-selected="true"
+                        >Login</a
+                      >
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a
+                        class="nav-link"
+                        id="tab-register"
+                        data-mdb-toggle="pill"
+                        href="#pills-register"
+                        role="tab"
+                        aria-controls="pills-register"
+                        aria-selected="false"
+                        >Sign Up</a
+                      >
+                    </li>
+                  </ul>
+                  <!-- Pills navs -->
+
+                  <!-- Pills content -->
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane fade show active"
+                      id="pills-login"
+                      role="tabpanel"
+                      aria-labelledby="tab-login"
+                    >
+                      <form action="/users/login" method="POST" id="loginForm">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                          <input
+                            type="text"
+                            autocomplete="false"
+                            id="loginName"
+                            name="username"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="loginName">
+                            username</label
+                          >
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                          <input
+                            type="password"
+                            autocomplete="false"
+                            id="loginPassword"
+                            name="password"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="loginPassword"
+                            >Password</label
+                          >
+                        </div>
+
+                        <!-- Submit button -->
+                        <button
+                          type="submit"
+                          class="btn btn-dark btn-block mb-4"
+                        >
+                          Sign in
+                        </button>
+                      </form>
+                    </div>
+                    <div
+                      class="tab-pane"
+                      id="pills-register"
+                      role="tabpanel"
+                      aria-labelledby="tab-register"
+                    >
+                      <form
+                        action="/cardetails/store"
+                        method="POST"
+                        id="registrationForm"
+                      >
+                        <!-- Username input -->
+                        <div class="form-outline mb-3">
+                          <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="username"
+                            >Username</label
+                          >
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                          <input
+                            type="password"
+                            autocomplete="false"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="password"
+                            >Password</label
+                          >
+                        </div>
+
+                        <!-- Repeat Password input -->
+                        <div class="form-outline mb-3">
+                          <input
+                            type="password"
+                            autocomplete="false"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="confirmPassword"
+                            >Repeat password</label
+                          >
+                        </div>
+
+                        <div class="mb-4">
+                          <select
+                            class="form-select"
+                            name="userType"
+                            aria-label="Default select example"
+                          >
+                            <option value="Driver">Driver</option>
+                            <option value="Examiner">Examiner</option>
+                            <option value="Admin">Admin</option>
+                          </select>
+                        </div>
+                        <!-- Submit button -->
+                        <button
+                          type="submit"
+                          class="btn btn-dark btn-block mb-3"
+                        >
+                          Sign in
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <!-- Pills content -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer.ejs') -%>
+    <!-- Scripts-->
+    <script>
+      const signin = document.getElementById("tab-login");
+      const signup = document.getElementById("tab-register");
+      signin.addEventListener("click", async () => {
+        const signinForm = document.getElementById("pills-login");
+        const signupForm = document.getElementById("pills-register");
+        signupForm.classList.remove("show", "active");
+        signinForm.classList.add("show", "active");
+      });
+      signup.addEventListener("click", async () => {
+        const signinForm = document.getElementById("pills-login");
+        const signupForm = document.getElementById("pills-register");
+        signupForm.classList.add("show", "active");
+        signinForm.classList.remove("show", "active");
+      });
+    </script>
+    <%- include('layouts/scripts.ejs') -%>
+  </body>
+</html>

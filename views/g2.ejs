@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--Header-->
+  <%- include('layouts/header.ejs') -%>
+
+  <body class="g2-background">
+    <!-- Navigation-->
+    <%- include('layouts/navbar.ejs') -%>
+    <!-- Page Header-->
+    <header class="masthead g2-header-image">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="page-heading">
+              <h1>G2 Driving Test</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <main class="mb-4">
+      <section class="gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <div class="appointment-success-box mt-3">
+                <% if(bookSuccessMessage!="" ){ %>
+                <div
+                  id="appointment-success-box"
+                  class="alert alert-success alert-dismissible fade show justify-content-center"
+                  role="alert"
+                >
+                  Appointment Booked Successfully!!
+                </div>
+                <% } %>
+              </div>
+              <form action="/appointments/g2/g2_page" method="POST">
+                <label for="dateG2">Date:</label>
+                <input
+                  class="form-control form-control-lg mb-2"
+                  id="dateG2"
+                  type="text"
+                  name="date"
+                  readonly="true"
+                  placeholder="Date"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-dark"
+                  data-mdb-ripple-color="dark"
+                >
+                  View available timeslots
+                </button>
+              </form>
+              <div class="timeslot-alert-box mt-3">
+                <% if(timeslots.length<=0){ %>
+                <div
+                  id="failure-alert-box"
+                  class="alert alert-warning justify-content-center"
+                  role="alert"
+                >
+                  No Slots Available for the date selected above
+                </div>
+                <% } %>
+              </div>
+
+              <% if (date && timeslots.length> 0) { %>
+              <h2 class="mt-2">Available timeslots for <%= date %></h2>
+              <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                  <tr>
+                    <th>Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% timeslots.forEach(timeslot=> { %>
+                  <tr>
+                    <td><%= timeslot.time %></td>
+
+                    <td>
+                      <a href="/appointments/<%= timeslot._id %>/G2/book"
+                        >Book</a
+                      >
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <div class="col-8 h-100 success-alert-box">
+                <% if(success!='' ){ %>
+                <div
+                  id="success-alert"
+                  class="alert alert-success alert-dismissible fade show justify-content-center"
+                  role="alert"
+                >
+                  <%= success %>
+                </div>
+                <% } %>
+              </div>
+              <div
+                class="card shadow-2-strong card-registration personal-info-card"
+              >
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">
+                    G2 Test Registration Form
+                  </h3>
+
+                  <form
+                    action="/cred/store/<%= userData._id %>"
+                    method="POST"
+                    id="personalInfoForm"
+                  >
+                    <fieldset>
+                      <legend>Personal Information</legend>
+                      <div class="row">
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="fname"
+                              name="fname"
+                              type="text"
+                              value="<%= userData.fname %>"
+                              placeholder="First Name"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="lname"
+                              type="text"
+                              name="lname"
+                              value="<%= userData.lname %>"
+                              placeholder="Last Name"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="license"
+                              type="text"
+                              maxlength="8"
+                              value="<%= userData.license %>"
+                              name="license"
+                              placeholder="License Number"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="age"
+                              type="text"
+                              placeholder="Age"
+                              value="<%= userData.age %>"
+                              name="age"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mb-4 pb-2 field-container">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="dob"
+                              type="text"
+                              name="dob"
+                              value="<%= userData.dob %>"
+                              placeholder="DOB"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <fieldset>
+                      <legend>Car Details</legend>
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="make"
+                              type="text"
+                              value="<%= userData.carDetails.make %>"
+                              placeholder="Make"
+                              name="make"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="model"
+                              type="text"
+                              placeholder="Model"
+                              value="<%= userData.carDetails.model %>"
+                              name="model"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="year"
+                              name="year"
+                              type="text"
+                              value="<%= userData.carDetails.year %>"
+                              placeholder="Year"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              name="color"
+                              id="color"
+                              type="text"
+                              value="<%= userData.carDetails.color %>"
+                              placeholder="Color"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 mb-4 pb-2">
+                          <div class="form-outline">
+                            <input
+                              class="form-control form-control-lg"
+                              id="numberPlate"
+                              type="text"
+                              placeholder="Plate Number"
+                              value="<%= userData.carDetails.numberPlate %>"
+                              name="numberPlate"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <div class="mt-4 mb-2 pt-2">
+                      <input
+                        class="btn btn-dark btn-lg"
+                        type="submit"
+                        value="DRIVE"
+                      />
+                    </div>
+                  </form>
+                  <!-- Footer-->
+                  <%- include('layouts/footer.ejs') -%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Scripts-->
+    <%- include('layouts/scripts.ejs') -%>
+  </body>
+</html>

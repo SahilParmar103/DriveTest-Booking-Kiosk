@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--Header-->
+  <%- include('layouts/header.ejs') -%>
+
+  <body class="login-background">
+    <!-- Navigation-->
+    <%- include('layouts/navbar.ejs') -%>
+    <!-- Page Header-->
+    <header class="masthead appointment-back-image">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="page-heading">
+              <h1>Appointments</h1>
+              <span class="subheading">Create Appointments here</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content-->
+    <main class="mb-4">
+      <section class="gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row justify-content-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+              <div
+                class="card shadow-2-strong card-registration"
+                style="border-radius: 15px"
+              >
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Create Time Slots</h3>
+                  <!-- Pills content -->
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane fade show active"
+                      id="pills-login"
+                      role="tabpanel"
+                      aria-labelledby="tab-login"
+                    >
+                      <form method="POST" action="/appointments">
+                        <label for="date">Date:</label>
+                        <input
+                          class="form-control form-control-lg"
+                          id="date"
+                          type="text"
+                          name="date"
+                          readonly="true"
+                          placeholder="Date"
+                        />
+
+                        <!-- <input type="date" name="date" required> -->
+                        <br />
+                        <label for="time">Time:</label>
+                        <input
+                          class="form-control form-control-lg"
+                          type="time"
+                          name="time"
+                          id="time"
+                          required
+                        />
+                        <br />
+                        <button type="submit" class="btn btn-dark">
+                          Create
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- Pills content -->
+                </div>
+              </div>
+              <div class="tab-content">
+                <table class="table align-middle mb-0 bg-white">
+                  <thead class="bg-light">
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Availability</th>
+                      <th>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for (let appointment of appointments) { %>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <img
+                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                            alt=""
+                            style="width: 45px; height: 45px"
+                            class="rounded-circle"
+                          />
+                          <div class="ms-3">
+                            <p class="fw-bold mb-1">
+                              <%=appointment.fname%> <%=appointment.lname%>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td><%= appointment.date.toDateString() %></td>
+                      <td><%= appointment.time %></td>
+                      <td>
+                        <span
+                          class="badge <%= appointment.isTimeSlotAvailable ? 'badge-success': !appointment.isTimeSlotAvailable ? 'badge-danger':'badge-warning'%> rounded-pill d-inline"
+                        >
+                          <%= appointment.isTimeSlotAvailable ? 'Available' :
+                          'Booked' %>
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          class="badge <%=appointment.passFail=='pass'? 'badge-success' : appointment.passFail=='fail' ? 'badge-danger':'badge-warning' %> rounded-pill d-inline"
+                        >
+                          <%=
+                          appointment.passFail?appointment.passFail.toUpperCase():'Untested'
+                          %>
+                        </span>
+                      </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer.ejs') -%>
+    <!-- Scripts-->
+    <%- include('layouts/scripts.ejs') -%>
+  </body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--Header-->
+<%- include('layouts/header.ejs') -%>
+
+  <body class="login-background">
+    <!-- Navigation-->
+    <%- include('layouts/navbar.ejs') -%>
+      <!-- Page Header-->
+      <header class="masthead login-back-image">
+        <div class="container position-relative px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <div class="page-heading">
+                <h1>Examine here..</h1>
+                <span class="subheading">Examiner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main Content-->
+      <main class="mb-4">
+        <section class="gradient-custom">
+          <div class="container py-5">
+            <div class="row justify-content-center">
+              <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                  <div class="card-body p-4 p-md-5">
+                    <!-- Pills content -->
+                    <div class="tab-pane" role="tabpanel">
+                      <form method="POST" action="/examiner/testType">
+                        <div class="mb-4">
+                          <select class="form-select" name="userType" aria-label="Default select example">
+                            <option value="all">All Users</option>
+                            <option value="G2">G2</option>
+                            <option value="G">G</option>
+                          </select>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-dark btn-block mb-3">View
+                          Appointmnets</button>
+                      </form>
+                    </div>
+                    <!-- Pills content -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mb-4">
+          <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col col-md-9">
+
+                <h3>You are viewing appointments for <%=userType%> users</h3>
+                <% for (let appointment of appointments) { %>
+                  <div class="card mb-4" style="border-radius: 15px;">
+
+                    <div class="card-body p-4">
+                      <div class="d-flex text-black">
+                        <div class="flex-shrink-0">
+                          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                            alt="Generic placeholder image" class="img-fluid"
+                            style="width: 180px; border-radius: 10px;">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h5 class="mb-1">
+                            <%= appointment.fname %>
+                              <%= appointment.lname %>
+                          </h5>
+                          <p class="mb-2 pb-1" style="color: #2b2a2a;">Car details</p>
+                          <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                            style="background-color: #efefef;">
+                            <div>
+                              <p class="small text-muted mb-1">Make</p>
+                              <p class="mb-0">
+                                <%= appointment.carDetails.make %>
+                              </p>
+                            </div>
+                            <div class="px-3">
+                              <p class="small text-muted mb-1">Model</p>
+                              <p class="mb-0">
+                                <%= appointment.carDetails.model %>
+                              </p>
+                            </div>
+                            <div>
+                              <p class="small text-muted mb-1">Color</p>
+                              <p class="mb-0">
+                                <%= appointment.carDetails.color %>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                            style="background-color: #efefef;">
+                            <div>
+                              <p class="small text-muted mb-1">Number Plate</p>
+                              <p class="mb-0">
+                                <%= appointment.carDetails.numberPlate %>
+                              </p>
+                            </div>
+                            <div class="px-3">
+                              <p class="small text-muted mb-1">Year</p>
+                              <p class="mb-0">
+                                <%= appointment.carDetails.year %>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="d-flex pt-1">
+                            <button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <div class="tab-content">
+                          <table class="table align-middle mb-0 bg-white">
+                            <thead class="bg-light">
+                              <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Availability</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div class="d-flex align-items-center">
+                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
+                                      style="width: 45px; height: 45px" class="rounded-circle" />
+                                    <div class="ms-3">
+                                      <p class="fw-bold mb-1">
+                                        <%= appointment.fname %>
+                                          <%= appointment.lname %>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <%= appointment.date.toDateString() %>
+                                </td>
+                                <td>
+                                  <%= appointment.time %>
+                                </td>
+                                <td>
+                                  <% if(appointment.isTimeSlotAvailable) { %>
+                                    <span class="badge badge-success rounded-pill d-inline">
+                                      Available
+                                    </span>
+                                    <% } %>
+                                      <% if(!appointment.isTimeSlotAvailable) { %>
+                                        <span class="badge badge-danger rounded-pill d-inline">
+                                          Booked
+                                        </span>
+                                        <% } %>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                          <form method="POST" action="/examiner/result">
+                            <label>Comments for the driving test</label>
+                            <textarea id="comment_<%=appointment._id%>" name="comment" class="form-control"><%- appointment.comment %></textarea>
+                            <input type="hidden" value="<%=appointment._id%>"  name="app_id"/>
+                            <input type="hidden" value="<%=appointment.userid%>"  name="user_id"/>
+                            <script>
+                              $('#comment_<%=appointment._id%>').summernote({
+                                placeholder: 'Provide comments for the test..',
+                                tabsize: 2,
+                                height: 200
+                              });
+                            </script>
+                             <div class="mb-4">
+                              <select class="form-select" name="passFail" value="<%- appointment.passFail %>"
+                                  aria-label="Default select example">
+                                  <option value="pass" <%- appointment.passFail == 'pass' ? 'selected' : '' %>>Pass</option>
+                                  <option value="fail" <%- appointment.passFail == 'fail' ? 'selected' : '' %>>Fail</option>
+                              </select> `
+                          </div>
+                            <button type="submit" class="btn btn-dark">Submit</button>
+                          </form>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+      <!-- Footer-->
+      <%- include('layouts/footer.ejs') -%>
+        <!-- Scripts-->
+        <%- include('layouts/scripts.ejs') -%>
+  </body>
+
+</html>
